@@ -1,16 +1,29 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { db } from "./config/firebase";
+import { doc, updateDoc } from "firebase/firestore";
 import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
-import { useEffect } from "react";
 
-function App() {
+//console.log(firebaseConfig);
+
+function App() {  
   const showCart = useSelector((state) => state.ui.cartIsVisible);
-  const cart = useSelector((state) => state.cart);  
-  console.log(cart);
+  const cart = useSelector((state) => state.cart);
+  console.log("cart: ", cart);
+
+  const cartRef = doc(db, "cart", "2dm9qslTI4zkKlU4fL80");
+
   useEffect(() => {
-    
-  }, [cart])
+    const syncCart = async () => {
+      await updateDoc(cartRef, {
+        items: cart.items,
+        totalQuantity: cart.totalQuantity,
+      });
+    };
+    syncCart();
+  }, [cart, cartRef]);
 
   console.log("showCart: ", showCart);
   return (
