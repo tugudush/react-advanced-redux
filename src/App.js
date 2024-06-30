@@ -6,12 +6,9 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 
-//console.log(firebaseConfig);
-
-function App() {  
+function App() {
   const showCart = useSelector((state) => state.ui.cartIsVisible);
   const cart = useSelector((state) => state.cart);
-  console.log("cart: ", cart);
 
   const cartRef = doc(db, "cart", "2dm9qslTI4zkKlU4fL80");
 
@@ -25,7 +22,6 @@ function App() {
     syncCart();
   }, [cart, cartRef]);
 
-  console.log("showCart: ", showCart);
   return (
     <Layout>
       {showCart && <Cart />}
