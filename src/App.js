@@ -6,6 +6,8 @@ import Cart from "./components/Cart/Cart";
 import Layout from "./components/Layout/Layout";
 import Products from "./components/Shop/Products";
 
+let isInitial = true;
+
 function App() {
   const showCart = useSelector((state) => state.ui.cartIsVisible);
   const cart = useSelector((state) => state.cart);
@@ -15,6 +17,11 @@ function App() {
   useEffect(() => {
     const syncCart = async () => {
       try {
+        if (isInitial) {
+          isInitial = false;
+          return;
+        }
+
         await updateDoc(cartRef, {
           items: cart.items,
           totalQuantity: cart.totalQuantity,
